@@ -41,7 +41,7 @@ export const loginController = async (req, res)=>{
             return res.status(400).json({ message: "Wrong Password" });
         }
         const token = jwt.sign({ userId: existingUser._id }, process.env.JWT_SECRET);
-        res.status(201).json({ message: "User login successfully",id:existingUser._id });
+        res.status(201).json({ message: "User login successfully",user: match, token });
     }
     catch (error) {
         res.status(500).json({ message: "Internal server error", error: error });
