@@ -31,13 +31,13 @@ export const signupController = async (req, res)=>{
 
 export const loginController = async (req, res)=>{
     try {
-        const {username, password} = req.body;
-        const existingUser = await User.findOne({ username });
+        const {email, password} = req.body;
+        const existingUser = await User.findOne({ email });
         if (!existingUser) {
             return res.status(400).json({ message: "User does not exist exists" });
         }
         const match = await bcrypt.compare(password, existingUser.password);
-        if (!match) {
+        if (match===false) {
             return res.status(400).json({ message: "Wrong Password" });
         }
         const token = jwt.sign({ userId: existingUser._id }, process.env.JWT_SECRET);
