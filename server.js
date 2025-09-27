@@ -17,6 +17,21 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions',paymentRoutes);
+app.get('/upi-callback', (req, res) => {
+    const { txnId, txnRef, Status, responseCode, approvalRefNo } = req.query;
+
+    console.log('Transaction callback received:', req.query);
+
+    if (Status === 'SUCCESS' && responseCode === '00') {
+        // Payment successful
+        // Update your database / mark order as paid
+        res.send('Payment Successful');
+    } else {
+        // Payment failed
+        res.send('Payment Failed');
+    }
+});
+
 
 app.listen(PORT, () => {
   connectToMongo();
