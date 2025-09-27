@@ -3,7 +3,11 @@ const transactionSchema = new Schema({
     payee:{type:mongoose.Schema.Types.ObjectId, ref:"User"},
     amount:{type:Number},
     vendor:{type:mongoose.Schema.Types.ObjectId, ref:"Vendor"},
-    order:{type:{String:Number},default:0},
+    order: {
+        type: Map,
+        of: Number,   // values are numbers
+        default: {}
+    }
 
 },{ timestamps: true });
 const Transaction = mongoose.model("Transaction", transactionSchema);

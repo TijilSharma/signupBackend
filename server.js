@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectToMongo from './connectToMongo.js';
 import authRoutes from './routes/auth.routes.js';
+import paymentRoutes from "./routes/payment.routes.js";
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/transactions',paymentRoutes);
 
 app.listen(PORT, () => {
   connectToMongo();
