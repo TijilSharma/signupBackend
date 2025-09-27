@@ -1,4 +1,4 @@
-import User from "../models/user.model.js";
+    import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -29,3 +29,21 @@ export const signupController = async (req, res)=>{
     }
 }
 
+export const loginController = async (req, res)=>{
+    try {
+        const {username, password} = req.body;
+        const existingUser = await User.findOne({ username });
+        if (!existingUser) {
+            return res.status(400).json({ message: "User does not exist exists" });
+        }
+        const match = await bcrypt.compare(password, existingUser.password);
+        if (!match) {
+            return res.status(400).json({ message: "Wrong Password" });
+        }
+        const token = jwt.sign({ userId: existingUser._id }, process.env.JWT_SECRET);
+        res.status(201).json({ message: "User login successfully",id:existingUser._id });
+    }
+    catch (error) {
+        res.status(500).json({ message: "Internal server error", error: error });
+    }
+}
