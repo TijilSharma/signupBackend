@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.routes.js';
 import paymentRoutes from "./routes/payment.routes.js";
 import {transactionController} from "./controllers/transaction.controller.js";
 import historyRoutes from "./routes/history.routes.js";
+import chartRoutes from "./routes/chart.routes.js";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions',paymentRoutes);
 app.use('/api/callback', historyRoutes);
+app.use('/api/charts', chartRoutes);
 
 
 app.listen(PORT, () => {
