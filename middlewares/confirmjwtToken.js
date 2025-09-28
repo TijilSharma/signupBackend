@@ -11,6 +11,7 @@ export const authMiddleware = (req, res, next) => {
     }
     try{
         req.user = jwt.verify(token, process.env.JWT_SECRET);
+        res.status(200).json({message:"You are logged in"});
         next();
     }
     catch(err){
