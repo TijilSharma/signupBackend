@@ -2,7 +2,7 @@ import mongoose, {Schema} from "mongoose";
 const transactionSchema = new Schema({
     payee:{type:mongoose.Schema.Types.ObjectId, ref:"User"},
     amount:{type:Number},
-    vendor:{type:mongoose.Schema.Types.ObjectId, ref:"Vendor"},
+    vendor:{type:String},
     order: {
         type: Map,
         of: Number,   // values are numbers
