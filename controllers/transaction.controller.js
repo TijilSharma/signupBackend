@@ -7,21 +7,18 @@ export const transactionController = async (req, res) => {
         const { payee, amount ,vendor, order } = req.body;
 
         try{
-            const id = await User.findOne({username: payee});
-            if(!id) return res.status(404).json({ error: 'Payee not found' });
 
             const vendorDoc = await Vendor.findOne({vendor: vendor});
-            if(!vendorDoc) return res.status(404).json({ error: 'Vendor not found' });
 
             const newPayment = new Transaction({
-                payee:id._id, amount, vendor:vendorDoc._id, order
+                payee:payee, amount, vendor:vendorDoc._id, order
             })
             await newPayment.save();
             res.status(200).json(newPayment);
         }
         catch(err){
             console.error('Transaction save error:', err);
-            res.status(400).json({ error: err.message || err });
+        res.status(400).json({ error: err.message || err },{vendor});
         }
 
 

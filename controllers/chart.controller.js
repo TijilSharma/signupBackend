@@ -58,3 +58,4 @@ export const getChartLine = async (req, res) => {
         res.status(400).send({ error: err.message || err });
     }
 };
+
