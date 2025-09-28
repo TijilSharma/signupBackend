@@ -10,6 +10,7 @@ export const getTransaction = async (req, res) => {
             transactionId: item._id,
             vendorName: item.vendor ? item.vendor.vendor : 'Unknown',
             amount: item.amount,
+            order: item.order,
             // assuming 'order' field contains orders object/map
         }));
 
