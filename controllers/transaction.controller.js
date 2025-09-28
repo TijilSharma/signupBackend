@@ -8,8 +8,10 @@ export const transactionController = async (req, res) => {
 
         try{
 
+            const vendorDoc = await Vendor.findOne({vendor: vendor});
+
             const newPayment = new Transaction({
-                payee:payee, amount, vendor:vendor, order
+                payee:payee, amount, vendor:vendorDoc._id, order
             })
             await newPayment.save();
             res.status(200).json(newPayment);
