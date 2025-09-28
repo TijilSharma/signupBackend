@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import connectToMongo from './connectToMongo.js';
 import authRoutes from './routes/auth.routes.js';
 import paymentRoutes from "./routes/payment.routes.js";
+import {transactionController} from "./controllers/transaction.controller.js";
+import historyRoutes from "./routes/history.routes.js";
 
 dotenv.config();
 
@@ -17,20 +19,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions',paymentRoutes);
-app.get('/upi-callback', (req, res) => {
-    const { txnId, txnRef, Status, responseCode, approvalRefNo } = req.query;
-
-    console.log('Transaction callback received:', req.query);
-
-    if (Status === 'SUCCESS' && responseCode === '00') {
-        // Payment successful
-        // Update your database / mark order as paid
-        res.send('Payment Successful');
-    } else {
-        // Payment failed
-        res.send('Payment Failed');
-    }
-});
+app.use('/api/callback', historyRoutes);
 
 
 app.listen(PORT, () => {
