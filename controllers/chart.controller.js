@@ -1,14 +1,25 @@
 import Transaction from "../models/transaction.model.js";
 
 export const getChart = async (req, res) => {
-    const {id} = req.params;
-    try{
+    const { id } = req.params;
+    try {
         const items = await Transaction.find({ payee: id })
             .populate('vendor', 'vendor');  // Populate vendor name only
 
-        const result = items.map(item => ({
-            vendorName: item.vendor ? item.vendor.vendor : 'Unknown',
-            amount: item.amount,
+        // Aggregate sums by vendor name
+        const aggregation = {};
+        items.forEach(item => {
+            const vendorName = item.vendor ? item.vendor.vendor : 'Unknown';
+            if (!aggregation[vendorName]) {
+                aggregation[vendorName] = 0;
+            }
+            aggregation[vendorName] += item.amount;
+        });
+
+        // Convert aggregation object into array suitable for pie chart
+        const result = Object.entries(aggregation).map(([vendorName, totalAmount]) => ({
+            vendorName,
+            amount: totalAmount,
         }));
 
         res.json(result);
@@ -16,6 +27,7 @@ export const getChart = async (req, res) => {
         res.status(400).send({ error: err.message || err });
     }
 };
+
 
 export const getChartLine = async (req, res) => {
     const { id } = req.params;
