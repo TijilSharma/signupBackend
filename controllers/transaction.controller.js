@@ -8,8 +8,12 @@ export const transactionController = async (req, res) => {
 
         try{
 
-            const vendorDoc = await Vendor.findOne({vendor: vendor});
-            if(!vendorDoc) return res.status(404).json({ error: 'Vendor not found' });
+            try{
+                const vendorDoc = await Vendor.findOne({vendor: vendor});
+            }
+            catch(err){
+                res.status(400).json({ error: err.message || err });
+            }
 
             const newPayment = new Transaction({
                 payee:payee, amount, vendor:vendorDoc._id, order
