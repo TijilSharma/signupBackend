@@ -11,6 +11,7 @@ export const getTransaction = async (req, res) => {
             vendorName: item.vendor ? item.vendor.vendor : 'Unknown',
             amount: item.amount,
             order: item.order,
+            createdAt: item.createdAt
             // assuming 'order' field contains orders object/map
         }));
 
