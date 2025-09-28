@@ -1,9 +1,8 @@
 import {Router} from 'express';
 import {authMiddleware} from "../middlewares/confirmjwtToken.js";
-import {getChart, getChartLine} from "../controllers/chart.controller.js";
+import {aiChat} from "../controllers/aiChat.controller.js";
 
 const router = Router();
-router.get('/pie/:id',getChart);
-router.get('/line/:id',getChartLine);
 
+router.post('/finance/:id', authMiddleware, aiChat);
 export default router;
